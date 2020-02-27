@@ -1,0 +1,29 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestEaseSample", "RestEaseSample\RestEaseSample.csproj", "{30BEF7D2-C7F7-4A5D-923C-973FB938E740}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutofacSample", "AutofacSample\AutofacSample.csproj", "{B3067F57-DB70-42FD-9188-0A729588B3D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryTest", "QueryTest\QueryTest.csproj", "{55A9E09D-2888-491E-9C8C-7405DE617E33}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{30BEF7D2-C7F7-4A5D-923C-973FB938E740}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30BEF7D2-C7F7-4A5D-923C-973FB938E740}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30BEF7D2-C7F7-4A5D-923C-973FB938E740}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30BEF7D2-C7F7-4A5D-923C-973FB938E740}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3067F57-DB70-42FD-9188-0A729588B3D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3067F57-DB70-42FD-9188-0A729588B3D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3067F57-DB70-42FD-9188-0A729588B3D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3067F57-DB70-42FD-9188-0A729588B3D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55A9E09D-2888-491E-9C8C-7405DE617E33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55A9E09D-2888-491E-9C8C-7405DE617E33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55A9E09D-2888-491E-9C8C-7405DE617E33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55A9E09D-2888-491E-9C8C-7405DE617E33}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
