@@ -21,12 +21,12 @@ namespace AutofacSample.Controllers
         public async Task<IEnumerable<Blog>> Get()
         {
             // Create a new blog and save it
-            bloggingContext.Blogs.Add(new Blog
+            await bloggingContext.Blogs.AddAsync(new Blog
             {
                 Name = "Test Blog #" + (bloggingContext.Blogs.Count() + 1)
             });
             Console.WriteLine("Calling SaveChanges.");
-            bloggingContext.SaveChanges();
+            await bloggingContext.SaveChangesAsync();
             Console.WriteLine("SaveChanges completed.");
 
             // Query for all blogs ordered by name
