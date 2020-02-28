@@ -10,10 +10,10 @@ using Xunit;
 
 namespace TestSample
 {
-    public class UnitTest1
+    public class BlogUnitTest
     {
         [Fact]
-        public async Task Test1()
+        public async Task TestGet()
         {
             BloggingContext._created = true;
             var mockContext = new Mock<BloggingContext>();
