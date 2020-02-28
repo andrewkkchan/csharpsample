@@ -28,6 +28,8 @@ namespace TestSample
             BlogController blogController = new BlogController(mockContext.Object);
             IEnumerable<Blog> enumerable = await blogController.Get();
             Assert.True(enumerable.Any());
+            mockSet.Verify(m => m.AddAsync(It.IsAny<Blog>(), default), Times.Once());
+            mockContext.Verify(m => m.SaveChangesAsync(default), Times.Once());
 
         }
     }
