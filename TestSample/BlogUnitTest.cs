@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AsyncDemo;
 using AutofacSample.Controllers;
+using Microsoft.Extensions.Options;
 using MockQueryable.Moq;
 using Moq;
 using Xunit;
@@ -25,7 +26,7 @@ namespace TestSample
             }.AsQueryable();
             var mockSet = data.BuildMockDbSet();
             mockContext.Setup(m => m.Blogs).Returns(mockSet.Object);
-            BlogController blogController = new BlogController(mockContext.Object);
+            BlogController blogController = new BlogController(mockContext.Object, Options.Create(new AutofacSample.Model.MyConfiguration()));
             IEnumerable<Blog> enumerable = await blogController.Get();
             Assert.True(enumerable.Any());
             mockSet.Verify(m => m.AddAsync(It.IsAny<Blog>(), default), Times.Once());
