@@ -8,15 +8,20 @@ namespace AutofacSample.Controllers
     [Route("[controller]")]
     public class GithubController : ControllerBase
     {
-        private readonly IGithubApi githubApi;
+        private readonly IGithubApi _githubApi;
         public GithubController(IGithubApi githubApi)
         {
-            this.githubApi = githubApi;
+            _githubApi = githubApi;
         }
 
-        public async Task<User> Get()
-        {
-            return await githubApi.GetUserAsyn();
+        public async Task<ActionResult<User>> Get()
+        { 
+            var user = await _githubApi.GetUserAsyn();
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            return NotFound();
         }
     }
 }

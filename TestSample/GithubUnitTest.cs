@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutofacSample.Controllers;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using RestEaseSample;
 using Xunit;
@@ -20,8 +21,8 @@ namespace TestSample
                 Name = "Antony Male"
             }));
             GithubController githubController = new GithubController(mockApi.Object);
-            User user = await githubController.Get();
-            Assert.Equal("Antony Male", user.Name);
+            ActionResult<User> user = await githubController.Get();
+            Assert.Equal("Antony Male", user.Value.Name);
 
         }
     }
