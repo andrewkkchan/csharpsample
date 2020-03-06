@@ -30,19 +30,14 @@ namespace AutofacSample.Controllers
                 Console.WriteLine("My lucky number is " + myConfiguration.MyNumber); 
             }
             // Create a new blog and save it
-            await bloggingContext.Blogs.AddAsync(new Blog
+            bloggingContext.Blogs.AddAsync(new Blog
             {
                 Name = "Test Blog #" + (bloggingContext.Blogs.Count() + 1)
             });
-            Console.WriteLine("Calling SaveChanges.");
-            await bloggingContext.SaveChangesAsync();
-            Console.WriteLine("SaveChanges completed.");
-
-            // Query for all blogs ordered by name
-            Console.WriteLine("Executing query.");
-            var blogs = await (from b in bloggingContext.Blogs
+            bloggingContext.SaveChangesAsync();
+            var blogs =  (from b in bloggingContext.Blogs
                          orderby b.Name
-                         select b).ToListAsync();
+                         select b);
 
             return blogs;
         }
