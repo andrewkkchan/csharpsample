@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using AutofacSample.Queue;
 using Microsoft.AspNetCore.Mvc;
 using RestEaseSample;
 
@@ -9,9 +10,11 @@ namespace AutofacSample.Controllers
     public class GithubController : ControllerBase
     {
         private readonly IGithubApi _githubApi;
-        public GithubController(IGithubApi githubApi)
+        private readonly IQueueProvider<User> _queueProvider;
+        public GithubController(IGithubApi githubApi, IQueueProvider<User> queueProvider)
         {
             _githubApi = githubApi;
+            _queueProvider = queueProvider;
         }
 
         public async Task<ActionResult<User>> Get()
@@ -19,6 +22,7 @@ namespace AutofacSample.Controllers
             var user = await _githubApi.GetUserAsyn();
             if (user != null)
             {
+                _queueProvider.SendMessage(user);
                 return Ok(user);
             }
             return NotFound();

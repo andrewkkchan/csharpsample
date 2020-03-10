@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutofacSample.Controllers;
+using AutofacSample.Queue;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using RestEaseSample;
@@ -20,7 +21,7 @@ namespace TestSample
             mockApi.Setup(m => m.GetUserAsyn()).Returns(Task.FromResult(new User {
                 Name = "Antony Male"
             }));
-            GithubController githubController = new GithubController(mockApi.Object);
+            GithubController githubController = new GithubController(mockApi.Object, new MockQueueProvider<User>());
             ActionResult<User> user = await githubController.Get();
             Assert.Equal("Antony Male", user.Value.Name);
 

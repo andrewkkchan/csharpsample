@@ -30,11 +30,11 @@ namespace AutofacSample.Controllers
                 Console.WriteLine("My lucky number is " + myConfiguration.MyNumber); 
             }
             // Create a new blog and save it
-            bloggingContext.Blogs.AddAsync(new Blog
+            await bloggingContext.Blogs.AddAsync(new Blog
             {
                 Name = "Test Blog #" + (bloggingContext.Blogs.Count() + 1)
             });
-            bloggingContext.SaveChangesAsync();
+            await bloggingContext.SaveChangesAsync();
             var blogs =  (from b in bloggingContext.Blogs
                          orderby b.Name
                          select b);

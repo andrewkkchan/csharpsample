@@ -6,6 +6,7 @@ using AsyncDemo;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutofacSample.Model;
+using AutofacSample.Queue;
 using AutofacSample.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,8 +34,8 @@ namespace AutofacSample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            SQSPollService.aws_access = Configuration["AWS:Access"];
-            SQSPollService.aws_secret = Configuration["AWS:Secret"];
+            QueueProvider<User>.AwsAccess = Configuration["AWS:Access"];
+            QueueProvider<User>.AwsSecret = Configuration["AWS:Secret"];
             services.AddControllers();
             services.AddOptions();
             services.Configure<MyConfiguration>(Configuration.GetSection("myConfiguration"));
@@ -53,6 +54,7 @@ namespace AutofacSample
             builder.RegisterType<TodayWriter>().As<IDateWriter>();
             builder.RegisterType<GithubApi>().As<IGithubApi>();
             builder.RegisterType<BloggingContext>();
+            builder.RegisterType<QueueProvider<User>>().As<IQueueProvider<User>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Amazon.Runtime;
 using Amazon.SQS;
 using Amazon.SQS.Model;
+using AutofacSample.Queue;
 using Microsoft.Extensions.Logging;
+using RestEaseSample;
 using VaultSharp;
 using VaultSharp.V1.AuthMethods;
 using VaultSharp.V1.AuthMethods.Token;
@@ -16,13 +18,14 @@ namespace AutofacSample.Service
     public class SQSPollService : BackgroundService
     {
         private readonly ILogger<SQSPollService> _logger;
-        public static string aws_access = "";
-        public static string aws_secret = "";
+        private readonly IQueueProvider<User> _queueProvider;
 
 
-        public SQSPollService(ILogger<SQSPollService> logger)
+
+        public SQSPollService(ILogger<SQSPollService> logger, IQueueProvider<User> queueProvider)
         {
             _logger = logger;
+            _queueProvider = queueProvider;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -31,24 +34,15 @@ namespace AutofacSample.Service
 
             stoppingToken.Register(() =>
                 _logger.LogDebug($" GracePeriod background task is stopping."));
-            var queueUrl = "https://sqs.eu-west-2.amazonaws.com/896009684607/sample_imagine";
-
-            var receiveMessageRequest = new ReceiveMessageRequest();
-            receiveMessageRequest.QueueUrl = queueUrl;
-            var awsCreds = new BasicAWSCredentials(aws_access,
-                aws_secret);
-
-            var amazonSQSClient = new AmazonSQSClient(awsCreds, Amazon.RegionEndpoint.EUWest2);
+           
             
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogDebug($"GracePeriod task doing background work.");
                 Console.WriteLine("Receiving Message");
-
-
-
-
-                var response = amazonSQSClient.ReceiveMessageAsync(receiveMessageRequest).Result;
+                var receiveMessageRequest = new ReceiveMessageRequest();
+                receiveMessageRequest.QueueUrl = QueueProvider<User>.QueueUrl;
+                var response = _queueProvider.GetQueueClient().ReceiveMessageAsync(receiveMessageRequest).Result;
 
                 if (response.Messages.Any())
                 {
@@ -59,10 +53,10 @@ namespace AutofacSample.Service
 
                         //Remove it from the queue as we don't want to see it again
                         var deleteMessageRequest = new DeleteMessageRequest();
-                        deleteMessageRequest.QueueUrl = queueUrl;
+                        deleteMessageRequest.QueueUrl = QueueProvider<User>.QueueUrl;
                         deleteMessageRequest.ReceiptHandle = message.ReceiptHandle;
 
-                        var result = amazonSQSClient.DeleteMessageAsync(deleteMessageRequest).Result;
+                        var result = _queueProvider.GetQueueClient().DeleteMessageAsync(deleteMessageRequest).Result;
                     }
                 }
 
