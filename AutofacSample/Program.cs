@@ -23,7 +23,7 @@ namespace AutofacSample
                 .ConfigureWebHostDefaults(webHostBuilder => {
                     webHostBuilder
               .UseContentRoot(Directory.GetCurrentDirectory())
-              .UseIISIntegration()
+              .UseUrls("http://localhost:3000/")
               .UseStartup<Startup>();
                 })
                 .Build();

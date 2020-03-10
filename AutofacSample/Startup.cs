@@ -6,6 +6,7 @@ using AsyncDemo;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutofacSample.Model;
+using AutofacSample.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,6 +36,8 @@ namespace AutofacSample
             services.AddControllers();
             services.AddOptions();
             services.Configure<MyConfiguration>(Configuration.GetSection("myConfiguration"));
+            services.AddHostedService<SQSPollService>();
+
         }
 
         // ConfigureContainer is where you can register things directly
