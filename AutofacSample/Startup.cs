@@ -33,6 +33,8 @@ namespace AutofacSample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            SQSPollService.aws_access = Configuration["AWS:Access"];
+            SQSPollService.aws_secret = Configuration["AWS:Secret"];
             services.AddControllers();
             services.AddOptions();
             services.Configure<MyConfiguration>(Configuration.GetSection("myConfiguration"));
@@ -67,15 +69,12 @@ namespace AutofacSample
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
 
             // If, for some reason, you need a reference to the built container, you
             // can use the convenience extension method GetAutofacRoot.
             this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
-
         }
     }
 }
