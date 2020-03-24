@@ -12,11 +12,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RestEaseSample;
+using Serilog;
 
 namespace AutofacSample
 {
@@ -28,7 +30,7 @@ namespace AutofacSample
         }
 
         public IConfiguration Configuration { get; }
-        public ILifetimeScope AutofacContainer { get; private set; }
+        public ILifetimeScope _container { get; private set; }
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -55,6 +57,7 @@ namespace AutofacSample
             builder.RegisterType<GithubApi>().As<IGithubApi>();
             builder.RegisterType<BloggingContext>();
             builder.RegisterType<QueueProvider<User>>().As<IQueueProvider<User>>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,7 +79,24 @@ namespace AutofacSample
 
             // If, for some reason, you need a reference to the built container, you
             // can use the convenience extension method GetAutofacRoot.
-            this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+            _container = app.ApplicationServices.GetAutofacRoot();
+            try
+            {
+                using(var scope = _container.BeginLifetimeScope())
+                {
+                    using (var serviceScope = scope.Resolve<BloggingContext>() as DbContext)
+                    {
+                        serviceScope.Database.Migrate();
+
+                    }
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error(ex, "Cannot migrate DB: ");
+            }
         }
+        
     }
 }

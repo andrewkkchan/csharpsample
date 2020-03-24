@@ -16,7 +16,6 @@ namespace TestSample
         [Fact]
         public async Task TestGet()
         {
-            BloggingContext._created = true;
             var mockContext = new Mock<BloggingContext>();
             var data = new List<Blog>
             {

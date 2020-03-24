@@ -9,6 +9,8 @@ namespace AutofacSample.Model
 
         public bool MyProperty { get; set; }
         public int MyNumber { get; set; }
+        
+        public string ConnectionString { get; set; }
 
     }
 }
