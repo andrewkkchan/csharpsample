@@ -32,7 +32,7 @@ namespace AsyncDemo
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlite("Data Source=blog.db");
+                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=BlogsDB;Username=postgres;Password=pitest;Pooling=true;MinPoolSize=0;MaxPoolSize=50");
             }
             optionsBuilder.UseLoggerFactory(DbCommandConsoleLoggerFactory);
 
