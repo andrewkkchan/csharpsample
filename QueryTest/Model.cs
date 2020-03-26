@@ -12,6 +12,8 @@ namespace AsyncDemo
     {
         public virtual DbSet<Blog> Blogs { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
+        public virtual DbSet<Blogger> Bloogers { get; set; }
+
 
         public static readonly ILoggerFactory DbCommandConsoleLoggerFactory = LoggerFactory.Create(builder =>
         {
@@ -42,6 +44,17 @@ namespace AsyncDemo
         public string Name { get; set; }
 
         public virtual List<Post> Posts { get; set; }
+    }
+    
+    public class Blogger
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserId { get; set; }
+
+        public string Name { get; set; }
+
+        public virtual List<Blog> Blogs { get; set; }
     }
 
     public class Post
