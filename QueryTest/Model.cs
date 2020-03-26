@@ -50,9 +50,11 @@ namespace AsyncDemo
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
+        public int BloggerId { get; set; }
 
         public string Name { get; set; }
+        
+        public string Address { get; set; }
 
         public virtual List<Blog> Blogs { get; set; }
     }

@@ -3,15 +3,17 @@ using System;
 using AsyncDemo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace QueryTest.Migrations
 {
     [DbContext(typeof(BloggingContext))]
-    partial class BloggingContextModelSnapshot : ModelSnapshot
+    [Migration("20200326142835_Blogger")]
+    partial class Blogger
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,7 +28,7 @@ namespace QueryTest.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("BloggerId")
+                    b.Property<int?>("BloggerUserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
@@ -34,25 +36,22 @@ namespace QueryTest.Migrations
 
                     b.HasKey("BlogId");
 
-                    b.HasIndex("BloggerId");
+                    b.HasIndex("BloggerUserId");
 
                     b.ToTable("Blogs");
                 });
 
             modelBuilder.Entity("AsyncDemo.Blogger", b =>
                 {
-                    b.Property<int>("BloggerId")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("Address")
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.HasKey("BloggerId");
+                    b.HasKey("UserId");
 
                     b.ToTable("Bloogers");
                 });
@@ -84,7 +83,7 @@ namespace QueryTest.Migrations
                 {
                     b.HasOne("AsyncDemo.Blogger", null)
                         .WithMany("Blogs")
-                        .HasForeignKey("BloggerId");
+                        .HasForeignKey("BloggerUserId");
                 });
 
             modelBuilder.Entity("AsyncDemo.Post", b =>
